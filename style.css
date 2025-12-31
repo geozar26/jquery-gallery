@@ -1,0 +1,204 @@
+/* Hero Section Styling */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #fff;
+}
+
+.hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+.search-box {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    position: relative;
+    margin-top: 20px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 15px 25px;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    /* border-radius: 50px για "κάψουλα" - το 50% σε input θα το έκανε κύκλο */
+    border-radius: 50px; 
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+#search-input:focus {
+    border-color: #aaa;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+#search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* Προσαρμογή Gallery */
+#gallery-container {
+    margin-top: 20px; /* Απόσταση από το Hero */
+}
+
+
+
+#gallery-container {
+    display: flex;
+    flex-wrap: wrap; /* Επιτρέπει στις εικόνες να πηγαίνουν στην επόμενη σειρά */
+    gap: 15px;       /* Κενό ανάμεσα στις εικόνες */
+    padding: 15px;
+    justify-content: center; /* Κεντράρισμα της γκαλερί */
+}
+
+.photo-item {
+    /* Υπολογισμός για 3 στήλες: (100% / 3) μείον το gap */
+    width: calc(33.33% - 15px); 
+    margin-bottom: 5px;
+    background: #e0e0e0; /* Γκρι φόντο όσο φορτώνει η φωτό */
+    border-radius: 8px;
+    min-height: 250px;   /* Δίνουμε ύψος εκ των προτέρων για να μην "πηδάει" το scroll */
+    overflow: hidden;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 300px;       /* Σταθερό ύψος για απόλυτη σταθερότητα */
+    object-fit: cover;   /* Η εικόνα γεμίζει το πλαίσιο χωρίς να παραμορφώνεται */
+    display: block;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Responsive: 2 στήλες για τάμπλετ και 1 για κινητά */
+@media (max-width: 900px) {
+    .photo-item { width: calc(50% - 15px); }
+}
+@media (max-width: 600px) {
+    .photo-item { width: 100%; }
+}
+
+/* Lightbox Styles */
+#lightbox {
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#lightbox-img {
+    max-width: 90%;
+    max-height: 85%;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+#close-lightbox {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* --- Gallery Layout (Flexbox) --- */
+#gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.photo-item {
+    position: relative; /* Απαραίτητο για να μπει η καρδιά από πάνω */
+    width: calc(33.33% - 20px);
+    height: 300px;
+    background: #eee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* --- Heart Icon Styles --- */
+.heart-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    filter: grayscale(100%); /* Γκρι όταν δεν είναι επιλεγμένο */
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10; /* Να είναι πάνω από την εικόνα */
+}
+
+.heart-icon.active { 
+    filter: grayscale(0%); /* Κόκκινο όταν είναι active */
+    transform: scale(1.1); 
+}
+
+.heart-icon:hover { 
+    transform: scale(1.2); 
+}
+
+/* --- Favorites Button Style --- */
+.hero #show-favorites {
+    background-color: #ff4757;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
+}
+
+.hero #show-favorites:hover { 
+    background-color: #ff6b81; 
+    transform: translateY(-2px); 
+}
+
+/* --- Responsive (για κινητά) --- */
+@media (max-width: 800px) {
+    .photo-item { width: calc(50% - 15px); }
+}
+@media (max-width: 500px) {
+    .photo-item { width: 100%; }
+}
