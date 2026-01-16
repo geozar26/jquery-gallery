@@ -1,4 +1,3 @@
-/* Hero Section Styling */
 .hero {
     display: flex;
     flex-direction: column;
@@ -9,7 +8,10 @@
     background-color: #fff;
 }
 
-.hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+.hero h1 { 
+    font-size: 2.5rem; 
+    margin-bottom: 10px; 
+}
 
 .search-box {
     width: 100%;
@@ -45,6 +47,30 @@
     border: none;
     cursor: pointer;
     font-size: 20px;
+}
+
+#back-home-btn {
+    margin-top: 40px;
+    padding: 8px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#back-home-btn:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+#back-home-btn i {
+    font-size: 12px;
 }
 
 /* Προσαρμογή Gallery */
@@ -148,40 +174,38 @@
     transition: 0.3s;
 }
 
-/* --- Heart Icon Styles --- */
 .heart-icon {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: white;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.5);
+    padding: 8px;
     border-radius: 50%;
     cursor: pointer;
-    filter: grayscale(100%); /* Γκρι όταν δεν είναι επιλεγμένο */
-    transition: 0.3s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 10; /* Να είναι πάνω από την εικόνα */
+    z-index: 10;
 }
 
-.heart-icon.active { 
-    filter: grayscale(0%); /* Κόκκινο όταν είναι active */
-    transform: scale(1.1); 
+.heart-icon i {
+    color: white; /* Άσπρη καρδιά αρχικά */
+    font-size: 20px;
+    pointer-events: none; /* Το κλικ περνάει στο div */
+    transition: color 0.3s, transform 0.2s;
 }
 
-.heart-icon:hover { 
-    transform: scale(1.2); 
+/* ΟΤΑΝ ΕΙΝΑΙ ACTIVE (Αγαπημένο) */
+.heart-icon.active i {
+    color: #ff4757 ; /* Κόκκινη καρδιά */
 }
+
+.heart-icon:hover i { transform: scale(1.2); }
 
 /* --- Favorites Button Style --- */
 .hero #show-favorites {
     background-color: #ff4757;
     color: white;
     border: none;
-    padding: 10px 25px;
+    margin-left:6px;
+    padding: 10px 20px;
     border-radius: 25px;
     font-weight: bold;
     margin-top: 15px;
@@ -201,4 +225,34 @@
 }
 @media (max-width: 500px) {
     .photo-item { width: 100%; }
+}
+
+/* Διορθώσεις για κινητά (έως 600px πλάτος) */
+/* Media Query για κινητά και μικρές οθόνες */
+@media (max-width: 600px) {
+    .hero h1 {
+        font-size: 1.8rem; /* Μειώνουμε λίγο ακόμα για να μην σπάει ο τίτλος */
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        padding: 0 20px;
+        text-align: center; /* Κεντράρουμε το κείμενο */
+    }
+
+    /* Αυτό θα φέρει την καρδιά στην ίδια ευθεία με το κείμενο */
+    .heart-icon {
+        display: inline-block; 
+        vertical-align: middle; /* Ευθυγράμμιση στο κέντρο της γραμμής */
+        margin-left: 5px; /* Η απόσταση που ζήτησες */
+        transform: scale(0.8); /* Μικραίνουμε ελαφρώς το κουμπί για τα κινητά */
+    }
+
+    .search-box {
+        width: 85%;
+        margin: 20px auto;
+    }
 }
