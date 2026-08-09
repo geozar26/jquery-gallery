@@ -49,6 +49,85 @@ cursor: pointer;
 font-size: 20px;
 }
 
+/* =========================================
+   CATEGORY BUTTONS
+========================================= */
+
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+
+    overflow-x: auto;
+    white-space: nowrap;
+
+    scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    position: relative;
+
+    padding: 8px 0 10px;
+
+    background: transparent;
+    border: none;
+
+    color: #555;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* Λεπτή γραμμή κάτω από το κάθε κείμενο */
+.category-btn::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: #111;
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.25s ease;
+}
+
+/* Όταν περνάει ο κέρσορας */
+.category-btn:hover {
+    color: #111;
+    transform: translateY(-3px);
+}
+
+.category-btn:hover::after {
+    transform: scaleX(1);
+}
+
+/* Ενεργή κατηγορία */
+.category-btn.active {
+    color: #111;
+}
+
+.category-btn.active::after {
+    transform: scaleX(1);
+}
+
 #back-home-btn {
 margin-top: 40px;
 padding: 8px 20px;
