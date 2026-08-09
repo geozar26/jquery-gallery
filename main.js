@@ -63,20 +63,48 @@ $(document).ready(function() {
 
     $('#back-home-btn').on('click', goBackHome);
 
-    // 4. ΑΝΑΖΗΤΗΣΗ
-    function performSearch() {
-        currentQuery = $('#search-input').val().trim();
-        if (currentQuery === "") return;
-        
-        showingFavorites = false;
-        page = 1;
-        $('#gallery-container').empty();
-        $('#back-home-btn').show(); // Εμφανίζει το κουμπί επιστροφής
-        loadImages(currentQuery);
-    }
+// 4. ΑΝΑΖΗΤΗΣΗ
+function performSearch() {
+    currentQuery = $('#search-input').val().trim();
+    if (currentQuery === "") return;
+    
+    showingFavorites = false;
+    page = 1;
+    $('#gallery-container').empty();
+    $('#back-home-btn').show();
+    loadImages(currentQuery);
+}
 
-    $('#search-btn').on('click', performSearch);
-    $('#search-input').on('keypress', (e) => { if(e.which == 13) performSearch(); });
+$('#search-btn').on('click', performSearch);
+$('#search-input').on('keypress', (e) => { 
+    if(e.which == 13) performSearch(); 
+});
+
+// 4.5 ΚΑΤΗΓΟΡΙΕΣ
+$('.category-btn').on('click', function() {
+
+    const category = $(this).data('category');
+
+    // Αλλαγή ενεργής κατηγορίας
+    $('.category-btn').removeClass('active');
+    $(this).addClass('active');
+
+    // Νέα αναζήτηση
+    currentQuery = category;
+
+    page = 1;
+    showingFavorites = false;
+
+    // Καθαρισμός gallery
+    $('#gallery-container').empty();
+
+    // Εμφάνιση back button
+    $('#back-home-btn').show();
+
+    // Φόρτωση εικόνων της κατηγορίας
+    loadImages(category);
+});
+    
 
     // 5. ΑΓΑΠΗΜΕΝΑ
     $('#show-favorites').on('click', function() {
