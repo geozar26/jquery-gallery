@@ -1,911 +1,226 @@
-
 .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 60px 20px 35px;
-    background-color: #fff;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 60px 20px;
+background-color: #fff;
 }
 
 .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+font-size: 2.5rem;
+margin-bottom: 10px;
 }
-
-.hero p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    padding: 0 20px;
-    text-align: center;
-}
-
-
-/* =========================================================
-   GALLERY CONTROLS
-========================================================= */
-
-.gallery-controls {
-    width: calc(100% - 90px);
-    max-width: 1500px;
-
-    margin: 10px auto 25px;
-
-    display: flex;
-    align-items: center;
-    gap: 30px;
-
-    overflow-x: auto;
-
-    scrollbar-width: none;
-}
-
-.gallery-controls::-webkit-scrollbar {
-    display: none;
-}
-
-
-/* =========================================================
-   SEARCH BAR
-========================================================= */
 
 .search-box {
-    width: 360px;
-    min-width: 360px;
-
-    height: 52px;
-
-    display: flex;
-    align-items: center;
-
-    position: relative;
-
-    margin: 0;
+width: 100%;
+max-width: 600px;
+display: flex;
+position: relative;
+margin-top: 20px;
 }
 
 #search-input {
-    width: 100%;
-    height: 100%;
-
-    padding: 0 55px 0 20px;
-
-    font-size: 16px;
-
-    color: #222;
-    background-color: #f3f3f3;
-
-    border: 1px solid #111;
-    border-radius: 50px;
-
-    outline: none;
-
-    box-shadow: none;
-
-    transition:
-        background-color 0.3s ease,
-        box-shadow 0.3s ease,
-        transform 0.3s ease;
-}
-
-#search-input::placeholder {
-    color: #777;
+width: 100%;
+padding: 15px 25px;
+font-size: 18px;
+border: 1px solid #ddd;
+/* border-radius: 50px για "κάψουλα" - το 50% σε input θα το έκανε κύκλο */
+border-radius: 50px;
+outline: none;
+box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+transition: 0.3s;
 }
 
 #search-input:focus {
-    background-color: #ededed;
-
-    box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.10);
+border-color: #aaa;
+box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
-
 
 #search-btn {
-    position: absolute;
-
-    right: 18px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    width: 35px;
-    height: 35px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-
-    border: none;
-
-    color: #111;
-
-    cursor: pointer;
-
-    font-size: 18px;
-
-    transition:
-        transform 0.25s ease,
-        color 0.25s ease;
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+background: none;
+border: none;
+cursor: pointer;
+font-size: 20px;
 }
-
-#search-btn:hover {
-    color: #555;
-
-    transform:
-        translateY(-50%)
-        scale(1.15);
-}
-
-
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
-.category-nav {
-    display: flex;
-    align-items: center;
-
-    gap: 25px;
-
-    min-width: max-content;
-}
-
-
-.category-btn {
-    position: relative;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 10px 2px 12px;
-
-    background: transparent;
-
-    border: none;
-
-    color: #222;
-
-    font-size: 15px;
-    font-family: inherit;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.25s ease,
-        color 0.25s ease;
-}
-
-
-/* ICON */
-
-.category-btn i {
-    font-size: 14px;
-
-    transition:
-        transform 0.25s ease;
-}
-
-
-/* TEXT */
-
-.category-btn span {
-    white-space: nowrap;
-}
-
-
-/* UNDERLINE */
-
-.category-btn::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    bottom: 3px;
-
-    width: 100%;
-    height: 1px;
-
-    background: #111;
-
-    transform: scaleX(0);
-
-    transform-origin: center;
-
-    transition:
-        transform 0.3s ease;
-}
-
-
-/* HOVER */
-
-.category-btn:hover {
-    transform: translateY(-4px);
-
-    color: #000;
-}
-
-.category-btn:hover i {
-    transform: translateY(-2px) scale(1.08);
-}
-
-.category-btn:hover::after {
-    transform: scaleX(1);
-}
-
-
-/* ACTIVE CATEGORY */
-
-.category-btn.active {
-    font-weight: 600;
-
-    transform: translateY(-2px);
-}
-
-.category-btn.active::after {
-    transform: scaleX(1);
-}
-
-.category-btn.active i {
-    transform: scale(1.05);
-}
-
-
-/* =========================================================
-   BACK HOME BUTTON
-========================================================= */
 
 #back-home-btn {
-    margin: 20px 0 30px;
-
-    padding: 9px 20px;
-
-    background-color: #333;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 20px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition:
-        0.3s ease;
-
-    display: inline-flex;
-    align-items: center;
-
-    gap: 8px;
+margin-top: 40px;
+padding: 8px 20px;
+background-color: #333;
+color: white;
+border: none;
+border-radius: 20px;
+cursor: pointer;
+font-size: 14px;
+transition: 0.3s;
+display: inline-flex;
+align-items: center;
+gap: 8px;
 }
 
 #back-home-btn:hover {
-    background-color: #555;
-
-    transform: translateY(-2px);
+background-color: #555;
+transform: translateY(-2px);
 }
 
 #back-home-btn i {
-    font-size: 12px;
+font-size: 12px;
 }
 
-
-/* =========================================================
-   GALLERY
-========================================================= */
+/* Προσαρμογή Gallery /
+#gallery-container {
+margin-top: 20px; / Απόσταση από το Hero */
+}
 
 #gallery-container {
-
-    width: calc(100% - 90px);
-    max-width: 1500px;
-
-    margin: 0 auto;
-
-    padding: 10px 0 40px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(12, 1fr);
-
-    grid-auto-rows: 85px;
-
-    gap: 15px;
-
-    grid-auto-flow: dense;
+display: flex;
+flex-wrap: wrap; /* Επιτρέπει στις εικόνες να πηγαίνουν στην επόμενη σειρά /
+gap: 15px; / Κενό ανάμεσα στις εικόνες /
+padding: 15px;
+justify-content: center; / Κεντράρισμα της γκαλερί */
 }
-
-
-/* =========================================================
-   PHOTO ITEM
-========================================================= */
 
 .photo-item {
-
-    position: relative;
-
-    overflow: hidden;
-
-    background: #eeeeee;
-
-    border-radius: 14px;
-
-    min-width: 0;
-
-    opacity: 0;
-
-    transform: translateY(20px) scale(0.97);
-
-    animation: photoAppear 0.55s ease forwards;
+/* Υπολογισμός για 3 στήλες: (100% / 3) μείον το gap /
+width: calc(33.33% - 15px);
+margin-bottom: 5px;
+background: #e0e0e0; / Γκρι φόντο όσο φορτώνει η φωτό /
+border-radius: 8px;
+min-height: 250px; / Δίνουμε ύψος εκ των προτέρων για να μην "πηδάει" το scroll */
+overflow: hidden;
 }
-
-
-/* =========================================================
-   IMAGE
-========================================================= */
 
 .gallery-img {
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    display: block;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.5s ease,
-        filter 0.4s ease;
+width: 100%;
+height: 300px; /* Σταθερό ύψος για απόλυτη σταθερότητα /
+object-fit: cover; / Η εικόνα γεμίζει το πλαίσιο χωρίς να παραμορφώνεται */
+display: block;
+border-radius: 8px;
+cursor: pointer;
+transition: transform 0.3s, opacity 0.3s;
 }
 
-.photo-item:hover .gallery-img {
-
-    transform: scale(1.06);
-
-    filter: brightness(0.92);
+.gallery-img:hover {
+transform: scale(1.05);
+opacity: 0.9;
 }
 
-
-/* =========================================================
-   DIFFERENT IMAGE SHAPES
-========================================================= */
-
-
-/* Normal square */
-
-.photo-item.shape-square {
-
-    grid-column: span 3;
-    grid-row: span 4;
-
-    border-radius: 14px;
+/* Responsive: 2 στήλες για τάμπλετ και 1 για κινητά */
+@media (max-width: 900px) {
+.photo-item { width: calc(50% - 15px); }
+}
+@media (max-width: 600px) {
+.photo-item { width: 100%; }
 }
 
-
-/* Large landscape */
-
-.photo-item.shape-wide {
-
-    grid-column: span 6;
-    grid-row: span 4;
-
-    border-radius: 18px;
-}
-
-
-/* Tall portrait */
-
-.photo-item.shape-tall {
-
-    grid-column: span 3;
-    grid-row: span 6;
-
-    border-radius: 18px;
-}
-
-
-/* Large portrait */
-
-.photo-item.shape-large {
-
-    grid-column: span 4;
-    grid-row: span 6;
-
-    border-radius: 22px;
-}
-
-
-/* Small square */
-
-.photo-item.shape-small {
-
-    grid-column: span 3;
-    grid-row: span 3;
-
-    border-radius: 12px;
-}
-
-
-/* Circle */
-
-.photo-item.shape-circle {
-
-    grid-column: span 4;
-    grid-row: span 4;
-
-    border-radius: 50%;
-}
-
-
-/* Wide rounded */
-
-.photo-item.shape-rounded {
-
-    grid-column: span 5;
-    grid-row: span 3;
-
-    border-radius: 40px;
-}
-
-
-/* =========================================================
-   HEART
-========================================================= */
-
-.heart-icon {
-
-    position: absolute;
-
-    top: 12px;
-    right: 12px;
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0, 0, 0, 0.55);
-
-    border-radius: 50%;
-
-    cursor: pointer;
-
-    z-index: 10;
-
-    backdrop-filter: blur(5px);
-
-    transition:
-        transform 0.25s ease,
-        background 0.25s ease;
-}
-
-.heart-icon:hover {
-
-    transform: scale(1.12);
-
-    background: rgba(0, 0, 0, 0.75);
-}
-
-.heart-icon i {
-
-    color: white;
-
-    font-size: 18px;
-
-    pointer-events: none;
-
-    transition:
-        color 0.3s ease,
-        transform 0.2s ease;
-}
-
-
-.heart-icon.active i {
-
-    color: #ff4757;
-
-    transform: scale(1.1);
-}
-
-
-/* =========================================================
-   PHOTO ANIMATION
-========================================================= */
-
-@keyframes photoAppear {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(25px)
-            scale(0.96);
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-/* =========================================================
-   CATEGORY CHANGE ANIMATION
-========================================================= */
-
-.gallery-changing .photo-item {
-
-    animation:
-        categoryChange 0.5s ease forwards;
-}
-
-@keyframes categoryChange {
-
-    0% {
-
-        opacity: 0;
-
-        transform:
-            translateY(25px)
-            scale(0.94);
-    }
-
-    100% {
-
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-/* =========================================================
-   LIGHTBOX
-========================================================= */
-
+/* Lightbox Styles */
 #lightbox {
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.95);
-
-    display: none;
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 1000;
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: rgba(0,0,0,0.95);
+display: none;
+justify-content: center;
+align-items: center;
+z-index: 1000;
 }
 
 #lightbox-img {
-
-    max-width: 90%;
-    max-height: 85%;
-
-    border-radius: 4px;
-
-    box-shadow:
-        0 0 20px rgba(255, 255, 255, 0.2);
+max-width: 90%;
+max-height: 85%;
+border-radius: 4px;
+box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
 #close-lightbox {
-
-    position: absolute;
-
-    top: 20px;
-    right: 30px;
-
-    color: white;
-
-    font-size: 40px;
-
-    cursor: pointer;
+position: absolute;
+top: 20px; right: 30px;
+color: white;
+font-size: 40px;
+cursor: pointer;
 }
 
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-#loader {
-
-    text-align: center;
-
-    padding: 30px;
-
-    font-size: 14px;
-
-    color: #555;
+/* --- Gallery Layout (Flexbox) --- */
+#gallery-container {
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+padding: 20px;
+justify-content: center;
 }
 
+.photo-item {
+position: relative; /* Απαραίτητο για να μπει η καρδιά από πάνω */
+width: calc(33.33% - 20px);
+height: 300px;
+background: #eee;
+border-radius: 12px;
+overflow: hidden;
+}
 
-/* =========================================================
-   FAVORITES BUTTON
-========================================================= */
+.gallery-img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+cursor: pointer;
+transition: 0.3s;
+}
 
+.heart-icon {
+position: absolute;
+top: 10px;
+right: 10px;
+background: rgba(0,0,0,0.5);
+padding: 8px;
+border-radius: 50%;
+cursor: pointer;
+z-index: 10;
+}
+
+.heart-icon i {
+color: white; /* Άσπρη καρδιά αρχικά /
+font-size: 20px;
+pointer-events: none; / Το κλικ περνάει στο div */
+transition: color 0.3s, transform 0.2s;
+}
+
+/* ΟΤΑΝ ΕΙΝΑΙ ACTIVE (Αγαπημένο) /
+.heart-icon.active i {
+color: #ff4757 ; / Κόκκινη καρδιά */
+}
+
+.heart-icon:hover i { transform: scale(1.2); }
+
+/* --- Favorites Button Style --- */
 .hero #show-favorites {
-
-    background-color: #ff4757;
-
-    color: white;
-
-    border: none;
-
-    margin-left: 6px;
-
-    padding: 10px 20px;
-
-    border-radius: 25px;
-
-    font-weight: bold;
-
-    margin-top: 15px;
-
-    transition: 0.3s;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 4px 10px rgba(255, 71, 87, 0.3);
+background-color: #ff4757;
+color: white;
+border: none;
+margin-left:6px;
+padding: 10px 20px;
+border-radius: 25px;
+font-weight: bold;
+margin-top: 15px;
+transition: 0.3s;
+cursor: pointer;
+box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3);
 }
 
 .hero #show-favorites:hover {
-
-    background-color: #ff6b81;
-
-    transform: translateY(-2px);
+background-color: #ff6b81;
+transform: translateY(-2px);
 }
 
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 1000px) {
-
-    .gallery-controls {
-
-        width: calc(100% - 40px);
-
-        gap: 20px;
-    }
-
-    .search-box {
-
-        width: 300px;
-        min-width: 300px;
-    }
-
-    #gallery-container {
-
-        width: calc(100% - 40px);
-
-        grid-template-columns:
-            repeat(6, 1fr);
-
-        grid-auto-rows: 80px;
-    }
-
-    .photo-item.shape-wide {
-
-        grid-column: span 6;
-    }
-
-    .photo-item.shape-large {
-
-        grid-column: span 3;
-    }
-
-    .photo-item.shape-circle {
-
-        grid-column: span 3;
-    }
+/* --- Responsive (για κινητά) --- */
+@media (max-width: 800px) {
+.photo-item { width: calc(50% - 15px); }
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .hero {
-
-        padding:
-            40px 15px 25px;
-    }
-
-    .hero h1 {
-
-        font-size: 1.8rem;
-    }
-
-    .hero p {
-
-        font-size: 0.9rem;
-
-        padding: 0 10px;
-    }
-
-
-    .gallery-controls {
-
-        width: calc(100% - 30px);
-
-        margin:
-            10px auto 20px;
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 15px;
-
-        overflow: visible;
-    }
-
-
-    .search-box {
-
-        width: 100%;
-        min-width: 0;
-
-        height: 50px;
-    }
-
-
-    .category-nav {
-
-        width: 100%;
-
-        overflow-x: auto;
-
-        gap: 22px;
-
-        padding-bottom: 5px;
-
-        scrollbar-width: none;
-    }
-
-    .category-nav::-webkit-scrollbar {
-
-        display: none;
-    }
-
-
-    .category-btn {
-
-        font-size: 14px;
-
-        flex-shrink: 0;
-    }
-
-
-    #gallery-container {
-
-        width: calc(100% - 30px);
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        grid-auto-rows: 100px;
-
-        gap: 10px;
-    }
-
-
-    .photo-item.shape-square {
-
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-
-
-    .photo-item.shape-small {
-
-        grid-column: span 1;
-        grid-row: span 2;
-    }
-
-
-    .photo-item.shape-wide {
-
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-
-    .photo-item.shape-tall {
-
-        grid-column: span 1;
-        grid-row: span 3;
-    }
-
-
-    .photo-item.shape-large {
-
-        grid-column: span 2;
-        grid-row: span 3;
-    }
-
-
-    .photo-item.shape-circle {
-
-        grid-column: span 2;
-        grid-row: span 3;
-    }
-
-
-    .photo-item.shape-rounded {
-
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-
-    .heart-icon {
-
-        width: 35px;
-        height: 35px;
-
-        top: 8px;
-        right: 8px;
-    }
-
-    .heart-icon i {
-
-        font-size: 16px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-========================================================= */
-
-@media (max-width: 400px) {
-
-    #gallery-container {
-
-        width: calc(100% - 20px);
-
-        gap: 8px;
-    }
-
-    .gallery-controls {
-
-        width: calc(100% - 20px);
-    }
-
-    .category-nav {
-
-        gap: 18px;
-    }
-
-    .category-btn {
-
-        font-size: 13px;
-    }
+@media (max-width: 500px) {
+.photo-item { width: 100%; }
 }
