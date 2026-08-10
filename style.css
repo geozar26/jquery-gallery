@@ -116,16 +116,12 @@
 }
 
 
-
-
 .categories {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
 
     gap: 28px;
-
-    flex: 1;
 
     overflow-x: auto;
 
@@ -133,6 +129,8 @@
 
     scrollbar-width: none;
 }
+
+
 
 .categories::-webkit-scrollbar {
     display: none;
