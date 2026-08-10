@@ -20,7 +20,7 @@
 
 
 .gallery-toolbar {
-    width: 100%;
+   
     max-width: 1400px;
 
     margin: 25px auto 10px;
@@ -208,9 +208,6 @@
 }
 
 
-/* =========================================
-   BACK HOME BUTTON
-========================================= */
 
 #back-home-btn {
     margin-top: 40px;
