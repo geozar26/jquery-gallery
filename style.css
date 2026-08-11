@@ -13,6 +13,62 @@ body.dark .hero {
     color: white;
 }
 
+
+/* =========================================
+   THEME TOGGLE
+========================================= */
+
+.theme-toggle {
+    position: fixed;
+
+    top: 35px;
+    right: 35px;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #ddd;
+    border-radius: 50%;
+
+    background-color: #ffffff;
+    color: #111111;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.25s ease,
+        box-shadow 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.14);
+}
+
+.theme-toggle i {
+    transition:
+        transform 0.4s ease;
+}
+
+.theme-toggle:hover i {
+    transform: rotate(20deg);
+}
+
 body.dark #search-input {
     background-color: #222;
     color: white;
