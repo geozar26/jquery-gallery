@@ -1,4 +1,15 @@
 
+body {
+	color: black; 
+	background-color: white;
+}
+body.dark {
+	color: white; 
+	background-color: black;
+}
+
+
+
 .hero {
     display: flex;
     flex-direction: column;
