@@ -1,14 +1,31 @@
-
 body {
-	color: black; 
-	background-color: white;
+    background-color: white;
+    color: black;
 }
+
 body.dark {
-	color: white; 
-	background-color: black;
+    background-color: black;
+    color: white;
 }
 
+body.dark .hero {
+    background-color: black;
+    color: white;
+}
 
+body.dark #search-input {
+    background-color: #222;
+    color: white;
+    border-color: #777;
+}
+
+body.dark .category-btn {
+    color: #ccc;
+}
+
+body.dark .category-btn.active {
+    color: white;
+} 
 
 .hero {
     display: flex;
