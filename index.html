@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Infinite Scroll Gallery</title>
 
@@ -20,28 +20,26 @@
 <body>
 
     <!-- =========================================
-         HERO / LANDING PAGE
+         HERO / LANDING
     ========================================== -->
 
     <section class="hero">
 
-        <!-- Landing image -->
         <img
             class="hero-image"
             src="images/family-cycling.jpg"
             alt="Family cycling outdoors"
         >
 
-        <!-- Dark overlay -->
         <div class="hero-overlay"></div>
 
-        <!-- Hero content -->
         <div class="hero-content">
 
             <h1>Αναζήτηση Εικόνων</h1>
 
             <p>
                 Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
+
                 <i
                     id="show-favorites"
                     class="fa-solid fa-heart"
@@ -49,17 +47,65 @@
                 </i>
             </p>
 
-            <!-- Main search -->
+
+            <!-- =================================
+                 SEARCH BAR
+            ================================== -->
+
             <div class="search-box">
+
+                <!-- IMAGE / VIDEO SWITCHER -->
+
+                <div class="media-switcher">
+
+                    <!-- IMAGE -->
+
+                    <button
+                        id="image-mode"
+                        class="media-option active"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-image"></i>
+
+                        <span>Image</span>
+                    </button>
+
+
+                    <!-- ONLY ONE DIVIDER -->
+
+                    <div class="media-divider"></div>
+
+
+                    <!-- VIDEO -->
+
+                    <button
+                        id="video-mode"
+                        class="media-option"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-video"></i>
+
+                        <span>Video</span>
+                    </button>
+
+                </div>
+
+
+                <!-- SEARCH INPUT -->
 
                 <input
                     type="text"
                     id="search-input"
                     placeholder="Αναζήτηση εικόνων..."
+                    autocomplete="off"
                 >
+
+
+                <!-- SEARCH BUTTON -->
 
                 <button
                     id="search-btn"
+                    type="button"
                     aria-label="Αναζήτηση"
                 >
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -67,12 +113,16 @@
 
             </div>
 
-            <!-- Back home -->
+
+            <!-- BACK HOME -->
+
             <button
                 id="back-home-btn"
+                type="button"
                 style="display: none;"
             >
                 <i class="fa-solid fa-arrow-left"></i>
+
                 Επιστροφή στην Αρχική
             </button>
 
@@ -82,7 +132,7 @@
 
 
     <!-- =========================================
-         GALLERY TOOLBAR
+         CATEGORIES
     ========================================== -->
 
     <section class="gallery-toolbar">
@@ -95,6 +145,7 @@
             <button
                 class="category-btn active"
                 data-category="nature"
+                type="button"
             >
                 Nature
             </button>
@@ -102,6 +153,7 @@
             <button
                 class="category-btn"
                 data-category="architecture"
+                type="button"
             >
                 Architecture
             </button>
@@ -109,6 +161,7 @@
             <button
                 class="category-btn"
                 data-category="people"
+                type="button"
             >
                 People
             </button>
@@ -116,6 +169,7 @@
             <button
                 class="category-btn"
                 data-category="fashion"
+                type="button"
             >
                 Fashion
             </button>
@@ -123,6 +177,7 @@
             <button
                 class="category-btn"
                 data-category="cars"
+                type="button"
             >
                 Cars
             </button>
@@ -130,6 +185,7 @@
             <button
                 class="category-btn"
                 data-category="travel"
+                type="button"
             >
                 Travel
             </button>
@@ -137,6 +193,7 @@
             <button
                 class="category-btn"
                 data-category="animals"
+                type="button"
             >
                 Animals
             </button>
@@ -144,6 +201,7 @@
             <button
                 class="category-btn"
                 data-category="art"
+                type="button"
             >
                 Art
             </button>
@@ -157,11 +215,7 @@
          GALLERY
     ========================================== -->
 
-    <main
-        id="gallery-container"
-        aria-live="polite"
-    >
-    </main>
+    <main id="gallery-container"></main>
 
 
     <!-- =========================================
@@ -180,14 +234,9 @@
          LIGHTBOX
     ========================================== -->
 
-    <div
-        id="lightbox"
-        class="hidden"
-    >
+    <div id="lightbox">
 
-        <span id="close-lightbox">
-            &times;
-        </span>
+        <span id="close-lightbox">&times;</span>
 
         <img
             id="lightbox-img"
@@ -198,10 +247,10 @@
     </div>
 
 
-
     <button
         id="theme-toggle"
         class="theme-toggle"
+        type="button"
         aria-label="Αλλαγή θέματος"
     >
         <i class="fa-solid fa-moon"></i>
