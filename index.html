@@ -2,59 +2,83 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Infinite Scroll Gallery</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     >
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+
 </head>
+
 
 <body>
 
 
-
+    <!-- =========================================
+         HERO
+    ========================================== -->
 
     <section class="hero">
 
-        <!-- IMAGE HERO -->
+
+        <!-- HERO IMAGE -->
+
         <img
-            class="hero-image"
+            class="hero-media hero-image"
             id="hero-image"
             src="./image/family-cycling.jpg"
             alt="Family cycling outdoors"
         >
 
+
+        <!-- HERO VIDEO -->
+
         <video
-            class="hero-video"
+            class="hero-media hero-video"
             id="hero-video"
             muted
             loop
             playsinline
             preload="metadata"
-            style="display: none;"
         >
+
             <source
                 src="./video/video.mp4"
                 type="video/mp4"
             >
+
             Your browser does not support the video tag.
+
         </video>
 
 
         <!-- HERO OVERLAY -->
+
         <div class="hero-overlay"></div>
 
 
         <!-- HERO CONTENT -->
+
         <div class="hero-content">
+
 
             <h1 id="hero-title">
                 Αναζήτηση Εικόνων
@@ -62,6 +86,7 @@
 
 
             <p id="hero-description">
+
                 <span id="hero-description-text">
                     Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
                 </span>
@@ -71,6 +96,7 @@
                     class="fa-solid fa-heart"
                     title="Δες τα αγαπημένα σου">
                 </i>
+
             </p>
 
 
@@ -79,44 +105,47 @@
             <div class="search-box">
 
 
-                <!-- IMAGE / VIDEO BUTTONS -->
+                <!-- IMAGE / VIDEO SWITCHER -->
 
                 <div class="media-switcher">
 
 
-                    <!-- IMAGE -->
+                    <!-- IMAGE BUTTON -->
 
                     <button
                         id="image-mode"
                         class="media-option image-option active"
                         type="button"
                     >
+
                         <i class="fa-solid fa-image"></i>
 
                         <span>
                             Image
                         </span>
+
                     </button>
 
-
-                    <!-- DIVIDER -->
 
                     <div class="media-divider"></div>
 
 
-                    <!-- VIDEO -->
+                    <!-- VIDEO BUTTON -->
 
                     <button
                         id="video-mode"
                         class="media-option video-option"
                         type="button"
                     >
+
                         <i class="fa-solid fa-video"></i>
 
                         <span>
                             Video
                         </span>
+
                     </button>
+
 
                 </div>
 
@@ -138,23 +167,29 @@
                     type="button"
                     aria-label="Αναζήτηση"
                 >
+
                     <i class="fa-solid fa-magnifying-glass"></i>
+
                 </button>
+
 
             </div>
 
 
-            <!-- BACK HOME BUTTON -->
+            <!-- BACK HOME -->
 
             <button
                 id="back-home-btn"
                 type="button"
-                style="display: none;"
+                hidden
             >
+
                 <i class="fa-solid fa-arrow-left"></i>
 
                 Επιστροφή στην Αρχική
+
             </button>
+
 
         </div>
 
@@ -162,18 +197,17 @@
 
 
     <!-- =========================================
-         GALLERY TOOLBAR
+         CATEGORY TOOLBAR
     ========================================== -->
 
     <section class="gallery-toolbar">
+
 
         <nav
             class="categories"
             id="categories"
         >
 
-
-            <!-- NATURE -->
 
             <button
                 class="category-btn active"
@@ -184,8 +218,6 @@
             </button>
 
 
-            <!-- ARCHITECTURE -->
-
             <button
                 class="category-btn"
                 data-category="architecture"
@@ -194,8 +226,6 @@
                 Architecture
             </button>
 
-
-            <!-- PEOPLE -->
 
             <button
                 class="category-btn"
@@ -206,8 +236,6 @@
             </button>
 
 
-            <!-- FASHION -->
-
             <button
                 class="category-btn"
                 data-category="fashion"
@@ -216,8 +244,6 @@
                 Fashion
             </button>
 
-
-            <!-- CARS -->
 
             <button
                 class="category-btn"
@@ -228,8 +254,6 @@
             </button>
 
 
-            <!-- TRAVEL -->
-
             <button
                 class="category-btn"
                 data-category="travel"
@@ -238,8 +262,6 @@
                 Travel
             </button>
 
-
-            <!-- ANIMALS -->
 
             <button
                 class="category-btn"
@@ -250,8 +272,6 @@
             </button>
 
 
-            <!-- ART -->
-
             <button
                 class="category-btn"
                 data-category="art"
@@ -259,6 +279,7 @@
             >
                 Art
             </button>
+
 
         </nav>
 
@@ -278,11 +299,13 @@
 
     <div
         id="loader"
-        style="display: none;"
+        hidden
     >
+
         <p>
             Φόρτωση...
         </p>
+
     </div>
 
 
@@ -290,7 +313,10 @@
          LIGHTBOX
     ========================================== -->
 
-    <div id="lightbox">
+    <div
+        id="lightbox"
+        hidden
+    >
 
         <span id="close-lightbox">
             &times;
@@ -306,6 +332,9 @@
     </div>
 
 
+    <!-- =========================================
+         THEME TOGGLE
+    ========================================== -->
 
     <button
         id="theme-toggle"
@@ -313,9 +342,10 @@
         type="button"
         aria-label="Αλλαγή θέματος"
     >
-        <i class="fa-solid fa-moon"></i>
-    </button>
 
+        <i class="fa-solid fa-moon"></i>
+
+    </button>
 
 
     <script src="main.js"></script>
