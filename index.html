@@ -20,23 +20,55 @@
 <body>
 
 
+    <!-- =========================================
+         HERO
+    ========================================== -->
 
     <section class="hero">
 
+        <!-- IMAGE HERO -->
         <img
             class="hero-image"
+            id="hero-image"
             src="./image/family-cycling.jpg"
             alt="Family cycling outdoors"
         >
 
+
+        <!-- VIDEO HERO -->
+        <video
+            class="hero-video"
+            id="hero-video"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            style="display: none;"
+        >
+            <source
+                src="./video/landing-video.mp4"
+                type="video/mp4"
+            >
+            Your browser does not support the video tag.
+        </video>
+
+
+        <!-- HERO OVERLAY -->
         <div class="hero-overlay"></div>
 
+
+        <!-- HERO CONTENT -->
         <div class="hero-content">
 
-            <h1>Αναζήτηση Εικόνων</h1>
+            <h1 id="hero-title">
+                Αναζήτηση Εικόνων
+            </h1>
 
-            <p>
-                Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
+
+            <p id="hero-description">
+                <span id="hero-description-text">
+                    Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
+                </span>
 
                 <i
                     id="show-favorites"
@@ -46,12 +78,15 @@
             </p>
 
 
+            <!-- SEARCH BOX -->
 
             <div class="search-box">
+
 
                 <!-- IMAGE / VIDEO BUTTONS -->
 
                 <div class="media-switcher">
+
 
                     <!-- IMAGE -->
 
@@ -61,7 +96,10 @@
                         type="button"
                     >
                         <i class="fa-solid fa-image"></i>
-                        <span>Image</span>
+
+                        <span>
+                            Image
+                        </span>
                     </button>
 
 
@@ -78,7 +116,10 @@
                         type="button"
                     >
                         <i class="fa-solid fa-video"></i>
-                        <span>Video</span>
+
+                        <span>
+                            Video
+                        </span>
                     </button>
 
                 </div>
@@ -115,6 +156,7 @@
                 style="display: none;"
             >
                 <i class="fa-solid fa-arrow-left"></i>
+
                 Επιστροφή στην Αρχική
             </button>
 
@@ -134,6 +176,9 @@
             id="categories"
         >
 
+
+            <!-- NATURE -->
+
             <button
                 class="category-btn active"
                 data-category="nature"
@@ -141,6 +186,9 @@
             >
                 Nature
             </button>
+
+
+            <!-- ARCHITECTURE -->
 
             <button
                 class="category-btn"
@@ -150,6 +198,9 @@
                 Architecture
             </button>
 
+
+            <!-- PEOPLE -->
+
             <button
                 class="category-btn"
                 data-category="people"
@@ -157,6 +208,9 @@
             >
                 People
             </button>
+
+
+            <!-- FASHION -->
 
             <button
                 class="category-btn"
@@ -166,6 +220,9 @@
                 Fashion
             </button>
 
+
+            <!-- CARS -->
+
             <button
                 class="category-btn"
                 data-category="cars"
@@ -173,6 +230,9 @@
             >
                 Cars
             </button>
+
+
+            <!-- TRAVEL -->
 
             <button
                 class="category-btn"
@@ -182,6 +242,9 @@
                 Travel
             </button>
 
+
+            <!-- ANIMALS -->
+
             <button
                 class="category-btn"
                 data-category="animals"
@@ -189,6 +252,9 @@
             >
                 Animals
             </button>
+
+
+            <!-- ART -->
 
             <button
                 class="category-btn"
@@ -218,7 +284,9 @@
         id="loader"
         style="display: none;"
     >
-        <p>Φόρτωση...</p>
+        <p>
+            Φόρτωση...
+        </p>
     </div>
 
 
@@ -228,7 +296,10 @@
 
     <div id="lightbox">
 
-        <span id="close-lightbox">&times;</span>
+        <span id="close-lightbox">
+            &times;
+        </span>
+
 
         <img
             id="lightbox-img"
@@ -239,9 +310,6 @@
     </div>
 
 
-    <!-- =========================================
-         THEME TOGGLE
-    ========================================== -->
 
     <button
         id="theme-toggle"
@@ -251,6 +319,7 @@
     >
         <i class="fa-solid fa-moon"></i>
     </button>
+
 
 
     <script src="main.js"></script>
