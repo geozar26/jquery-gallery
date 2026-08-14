@@ -1,58 +1,135 @@
-```javascript
 $(document).ready(function () {
 
+    // =========================================
+    // STATE
+    // =========================================
+
     let page = 1;
+
     let currentQuery = '';
+
     let loading = false;
+
     let showingFavorites = false;
 
-    const myKey = '2OPWvpb-XELm-nttZAdjMe0GTZmapGeszoDPGUzQgw8';
+    let mediaMode = 'image';
+
+
+    const myKey =
+        '2OPWvpb-XELm-nttZAdjMe0GTZmapGeszoDPGUzQgw8';
 
 
     // =========================================
-    // 1. ΦΟΡΤΩΣΗ ΕΙΚΟΝΩΝ
+    // 1. LOAD IMAGES
     // =========================================
 
     function loadImages(query = '') {
 
-        if (loading || showingFavorites) return;
+        if (loading || showingFavorites) {
+            return;
+        }
+
 
         loading = true;
 
-        $('#loader').show();
+        $('#loader').prop('hidden', false);
 
-        let url = query
-            ? `https://api.unsplash.com/search/photos?page=${page}&query=${encodeURIComponent(query)}&client_id=${myKey}&per_page=12`
-            : `https://api.unsplash.com/photos?page=${page}&client_id=${myKey}&per_page=12`;
+
+        let url;
+
+
+        if (query) {
+
+            url =
+                `https://api.unsplash.com/search/photos` +
+                `?page=${page}` +
+                `&query=${encodeURIComponent(query)}` +
+                `&client_id=${myKey}` +
+                `&per_page=12`;
+
+        } else {
+
+            url =
+                `https://api.unsplash.com/photos` +
+                `?page=${page}` +
+                `&client_id=${myKey}` +
+                `&per_page=12`;
+
+        }
+
 
         $.ajax({
 
             url: url,
+
             method: 'GET',
 
             success: function (response) {
 
-                let photos =
-                    (query && response.results)
-                        ? response.results
-                        : response;
+                console.log('Unsplash response:', response);
 
-                renderPhotos(photos);
 
-                page++;
+                let photos;
 
-                loading = false;
 
-                $('#loader').hide();
+                if (query) {
+
+                    photos = response.results || [];
+
+                } else {
+
+                    photos = response || [];
+
+                }
+
+
+                if (photos.length === 0) {
+
+                    console.log('Δεν βρέθηκαν άλλες εικόνες.');
+
+                } else {
+
+                    renderPhotos(photos);
+
+                    page++;
+
+                }
+
             },
 
-            error: function () {
 
-                alert("Σφάλμα API. Δοκίμασε σε λίγο.");
+            error: function (xhr) {
+
+                console.error(
+                    'Unsplash API Error:',
+                    xhr.status,
+                    xhr.responseText
+                );
+
+
+                if (xhr.status === 403) {
+
+                    alert(
+                        'Το Unsplash API έφτασε πιθανότατα το rate limit.'
+                    );
+
+                } else {
+
+                    alert(
+                        'Σφάλμα API. Δοκίμασε σε λίγο.'
+                    );
+
+                }
+
+            },
+
+
+            complete: function () {
 
                 loading = false;
 
-                $('#loader').hide();
+                $('#loader').prop('hidden', true);
+
             }
 
         });
@@ -61,43 +138,75 @@ $(document).ready(function () {
 
 
     // =========================================
-    // 2. ΕΜΦΑΝΙΣΗ ΕΙΚΟΝΩΝ ΣΤΟ GALLERY
+    // 2. RENDER PHOTOS
     // =========================================
 
     function renderPhotos(photos) {
 
-        let favorites =
-            JSON.parse(localStorage.getItem('myFavs')) || [];
+        const favorites =
+            JSON.parse(
+                localStorage.getItem('myFavs')
+            ) || [];
 
-        photos.forEach(photo => {
 
-            const isFav =
-                favorites.includes(photo.urls.small)
+        photos.forEach(function (photo) {
+
+            if (!photo.urls) {
+                return;
+            }
+
+
+            const smallUrl =
+                photo.urls.small;
+
+
+            const fullUrl =
+                photo.urls.regular ||
+                photo.urls.full ||
+                photo.urls.small;
+
+
+            const isFavorite =
+                favorites.includes(smallUrl);
+
+
+            const favoriteClass =
+                isFavorite
                     ? 'active'
                     : '';
 
+
             const imgHtml = `
 
-                <div class="photo-item">
+                <article class="photo-item">
 
                     <img
-                        src="${photo.urls.small}"
-                        data-full="${photo.urls.regular}"
+                        src="${smallUrl}"
+                        data-full="${fullUrl}"
                         class="gallery-img"
+                        alt="${photo.alt_description || 'Unsplash image'}"
+                        loading="lazy"
                     >
 
-                    <div
-                        class="heart-icon ${isFav}"
-                        data-url="${photo.urls.small}"
+
+                    <button
+                        class="heart-icon ${favoriteClass}"
+                        data-url="${smallUrl}"
+                        type="button"
+                        aria-label="Προσθήκη στα αγαπημένα"
                     >
+
                         <i class="fa-solid fa-heart"></i>
-                    </div>
 
-                </div>
+                    </button>
+
+                </article>
 
             `;
 
-            $('#gallery-container').append(imgHtml);
+
+            $('#gallery-container')
+                .append(imgHtml);
 
         });
 
@@ -105,7 +214,7 @@ $(document).ready(function () {
 
 
     // =========================================
-    // 3. ΕΠΙΣΤΡΟΦΗ ΣΤΗΝ ΑΡΧΙΚΗ
+    // 3. BACK HOME
     // =========================================
 
     function goBackHome() {
@@ -120,129 +229,198 @@ $(document).ready(function () {
 
         $('#gallery-container').empty();
 
-        $('#back-home-btn').hide();
+        $('#back-home-btn').prop('hidden', true);
+
+
+        $('.category-btn')
+            .removeClass('active');
+
+        $('.category-btn')
+            .first()
+            .addClass('active');
+
 
         loadImages();
 
     }
 
 
-    $('#back-home-btn').on('click', goBackHome);
+    $('#back-home-btn').on(
+        'click',
+        goBackHome
+    );
 
 
     // =========================================
-    // 4. ΑΝΑΖΗΤΗΣΗ
+    // 4. SEARCH
     // =========================================
 
     function performSearch() {
 
-        currentQuery =
-            $('#search-input').val().trim();
+        const query =
+            $('#search-input')
+                .val()
+                .trim();
 
-        if (currentQuery === '') return;
 
-        showingFavorites = false;
+        if (!query) {
+            return;
+        }
+
+
+        currentQuery = query;
 
         page = 1;
 
-        $('#gallery-container').empty();
+        showingFavorites = false;
 
-        $('#back-home-btn').show();
+
+        $('#gallery-container')
+            .empty();
+
+
+        $('#back-home-btn')
+            .prop('hidden', false);
+
+
+        $('.category-btn')
+            .removeClass('active');
+
 
         loadImages(currentQuery);
 
     }
 
 
-    $('#search-btn').on('click', performSearch);
+    $('#search-btn').on(
+        'click',
+        performSearch
+    );
 
 
-    $('#search-input').on('keypress', function (e) {
+    $('#search-input').on(
+        'keypress',
+        function (e) {
 
-        if (e.which === 13) {
+            if (e.which === 13) {
 
-            performSearch();
+                performSearch();
 
-        }
-
-    });
-
-
-    // =========================================
-    // 4.5 ΚΑΤΗΓΟΡΙΕΣ
-    // =========================================
-
-    $('.category-btn').on('click', function () {
-
-        const category =
-            $(this).data('category');
-
-        $('.category-btn').removeClass('active');
-
-        $(this).addClass('active');
-
-        currentQuery = category;
-
-        page = 1;
-
-        showingFavorites = false;
-
-        $('#gallery-container').empty();
-
-        $('#back-home-btn').show();
-
-        loadImages(category);
-
-    });
-
-
-    // =========================================
-    // 5. ΑΓΑΠΗΜΕΝΑ
-    // =========================================
-
-    $('#show-favorites').on('click', function () {
-
-        showingFavorites = true;
-
-        $('#gallery-container').empty();
-
-        $('#back-home-btn').show();
-
-        let favorites =
-            JSON.parse(localStorage.getItem('myFavs')) || [];
-
-
-        if (favorites.length === 0) {
-
-            $('#gallery-container').html(`
-                <p style="
-                    color: black;
-                    width: 100%;
-                    text-align: center;
-                ">
-                    Κανένα αγαπημένο.
-                </p>
-            `);
-
-        } else {
-
-            let favObjs =
-                favorites.map(url => ({
-                    urls: {
-                        small: url,
-                        regular: url
-                    }
-                }));
-
-            renderPhotos(favObjs);
+            }
 
         }
-
-    });
+    );
 
 
     // =========================================
-    // 6. CLICK ΣΤΗΝ ΚΑΡΔΙΑ
+    // 5. CATEGORIES
+    // =========================================
+
+    $('.category-btn').on(
+        'click',
+        function () {
+
+            const category =
+                $(this).data('category');
+
+
+            $('.category-btn')
+                .removeClass('active');
+
+
+            $(this)
+                .addClass('active');
+
+
+            currentQuery = category;
+
+            page = 1;
+
+            showingFavorites = false;
+
+
+            $('#gallery-container')
+                .empty();
+
+
+            $('#back-home-btn')
+                .prop('hidden', false);
+
+
+            loadImages(category);
+
+        }
+    );
+
+
+    // =========================================
+    // 6. FAVORITES
+    // =========================================
+
+    $('#show-favorites').on(
+        'click',
+        function () {
+
+            showingFavorites = true;
+
+
+            $('#gallery-container')
+                .empty();
+
+
+            $('#back-home-btn')
+                .prop('hidden', false);
+
+
+            const favorites =
+                JSON.parse(
+                    localStorage.getItem('myFavs')
+                ) || [];
+
+
+            if (favorites.length === 0) {
+
+                $('#gallery-container').html(`
+
+                    <p class="empty-favorites">
+
+                        Κανένα αγαπημένο.
+
+                    </p>
+
+                `);
+
+                return;
+
+            }
+
+
+            const favObjects =
+                favorites.map(function (url) {
+
+                    return {
+
+                        urls: {
+
+                            small: url,
+
+                            regular: url
+
+                        }
+
+                    };
+
+                });
+
+
+            renderPhotos(favObjects);
+
+        }
+    );
+
+
+    // =========================================
+    // 7. FAVORITE HEART
     // =========================================
 
     $('#gallery-container').on(
@@ -252,10 +430,14 @@ $(document).ready(function () {
 
             e.stopPropagation();
 
-            let $btn = $(this);
 
-            let imgUrl =
-                $btn.data('url');
+            const $button =
+                $(this);
+
+
+            const imgUrl =
+                $button.data('url');
+
 
             let favorites =
                 JSON.parse(
@@ -267,15 +449,20 @@ $(document).ready(function () {
 
                 favorites =
                     favorites.filter(
-                        url => url !== imgUrl
+                        function (url) {
+
+                            return url !== imgUrl;
+
+                        }
                     );
 
-                $btn.removeClass('active');
+
+                $button.removeClass('active');
 
 
                 if (showingFavorites) {
 
-                    $btn
+                    $button
                         .closest('.photo-item')
                         .remove();
 
@@ -285,7 +472,7 @@ $(document).ready(function () {
 
                 favorites.push(imgUrl);
 
-                $btn.addClass('active');
+                $button.addClass('active');
 
             }
 
@@ -300,58 +487,38 @@ $(document).ready(function () {
 
 
     // =========================================
-    // 7. INFINITE SCROLL
+    // 8. INFINITE SCROLL
     // =========================================
 
-    $(window).on('scroll', function () {
-
-        if (
-            !showingFavorites &&
-            $(window).scrollTop() +
-            $(window).height() >=
-            $(document).height() - 800 &&
-            !loading
-        ) {
-
-            loadImages(currentQuery);
-
-        }
-
-    });
-
-
-    // =========================================
-    // 8. LIGHTBOX
-    // =========================================
-
-    $('#gallery-container').on(
-        'click',
-        '.gallery-img',
+    $(window).on(
+        'scroll',
         function () {
 
-            $('#lightbox-img').attr(
-                'src',
-                $(this).data('full')
-            );
-
-            $('#lightbox')
-                .fadeIn()
-                .css('display', 'flex');
-
-        }
-    );
+            if (showingFavorites) {
+                return;
+            }
 
 
-    $('#lightbox, #close-lightbox').on(
-        'click',
-        function (e) {
+            if (loading) {
+                return;
+            }
+
+
+            const scrollPosition =
+                $(window).scrollTop() +
+                $(window).height();
+
+
+            const documentHeight =
+                $(document).height();
+
 
             if (
-                e.target !==
-                document.getElementById('lightbox-img')
+                scrollPosition >=
+                documentHeight - 800
             ) {
 
-                $('#lightbox').fadeOut();
+                loadImages(currentQuery);
 
             }
 
@@ -360,177 +527,254 @@ $(document).ready(function () {
 
 
     // =========================================
-    // 9. IMAGE / VIDEO HERO SWITCH
+    // 9. LIGHTBOX
     // =========================================
 
+    $('#gallery-container').on(
+        'click',
+        '.gallery-img',
+        function () {
 
-    // IMAGE BUTTON
+            const fullImage =
+                $(this).data('full');
 
-    $('#image-mode').on('click', function () {
 
-        // ενεργό button
+            $('#lightbox-img')
+                .attr('src', fullImage);
+
+
+            $('#lightbox')
+                .prop('hidden', false)
+                .css('display', 'flex');
+
+        }
+    );
+
+
+    $('#lightbox').on(
+        'click',
+        function (e) {
+
+            if (
+                e.target ===
+                document.getElementById('lightbox')
+                ||
+                e.target ===
+                document.getElementById('close-lightbox')
+            ) {
+
+                closeLightbox();
+
+            }
+
+        }
+    );
+
+
+    function closeLightbox() {
+
+        $('#lightbox')
+            .fadeOut(200, function () {
+
+                $(this)
+                    .prop('hidden', true)
+                    .css('display', '');
+
+            });
+
+    }
+
+
+    // =========================================
+    // 10. IMAGE / VIDEO SWITCH
+    // =========================================
+
+    function setImageMode() {
+
+        mediaMode = 'image';
+
+
         $('#image-mode')
             .addClass('active');
+
 
         $('#video-mode')
             .removeClass('active');
 
 
-        // εμφάνιση εικόνας
-        $('#hero-image').show();
-
-
-        // απόκρυψη video
-        $('#hero-video').hide();
-
-
-        // σταμάτημα video
         const video =
-            document.getElementById('hero-video');
+            document.getElementById(
+                'hero-video'
+            );
+
 
         video.pause();
 
-        // επιστροφή στην αρχή του video
         video.currentTime = 0;
 
 
-        // αλλαγή τίτλου
-        $('#hero-title').text(
-            'Αναζήτηση Εικόνων'
-        );
+        $('#hero-video')
+            .removeClass('visible');
 
 
-        // αλλαγή description
-        $('#hero-description-text').text(
-            'Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης'
-        );
+        $('#hero-image')
+            .removeClass('hidden');
 
 
-        // αλλαγή placeholder
-        $('#search-input').attr(
-            'placeholder',
-            'Αναζήτηση εικόνων...'
-        );
-
-    });
+        $('#hero-title')
+            .text('Αναζήτηση Εικόνων');
 
 
-    // VIDEO BUTTON
+        $('#hero-description-text')
+            .text(
+                'Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης'
+            );
 
-    $('#video-mode').on('click', function () {
 
-        // ενεργό button
+        $('#search-input')
+            .attr(
+                'placeholder',
+                'Αναζήτηση εικόνων...'
+            );
+
+    }
+
+
+    function setVideoMode() {
+
+        mediaMode = 'video';
+
+
         $('#video-mode')
             .addClass('active');
+
 
         $('#image-mode')
             .removeClass('active');
 
 
-        // απόκρυψη εικόνας
-        $('#hero-image').hide();
+        $('#hero-image')
+            .addClass('hidden');
 
 
-        // εμφάνιση video
-        $('#hero-video').show();
+        $('#hero-video')
+            .addClass('visible');
 
 
-        // ξεκίνημα video
         const video =
-            document.getElementById('hero-video');
-
-        video.play().catch(function (error) {
-
-            console.log(
-                'Το video δεν μπόρεσε να ξεκινήσει αυτόματα:',
-                error
+            document.getElementById(
+                'hero-video'
             );
 
-        });
 
+        video.play().catch(
+            function (error) {
 
-        // αλλαγή τίτλου
-        $('#hero-title').text(
-            'Αναζήτηση Βίντεο'
+                console.error(
+                    'Video playback error:',
+                    error
+                );
+
+            }
         );
 
 
-        // αλλαγή description
-        $('#hero-description-text').text(
-            'Βρες υπέροχα βίντεο υψηλής ανάλυσης'
-        );
+        $('#hero-title')
+            .text('Αναζήτηση Βίντεο');
 
 
-        // αλλαγή placeholder
-        $('#search-input').attr(
-            'placeholder',
-            'Αναζήτηση βίντεο...'
-        );
+        $('#hero-description-text')
+            .text(
+                'Βρες υπέροχα βίντεο υψηλής ανάλυσης'
+            );
 
-    });
+
+        $('#search-input')
+            .attr(
+                'placeholder',
+                'Αναζήτηση βίντεο...'
+            );
+
+    }
+
+
+    $('#image-mode').on(
+        'click',
+        setImageMode
+    );
+
+
+    $('#video-mode').on(
+        'click',
+        setVideoMode
+    );
 
 
     // =========================================
-    // 10. THEME TOGGLE
+    // 11. THEME
     // =========================================
 
     let darkMode = false;
 
 
-    // default system theme
-    if (
-        window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        ).matches
-    ) {
+    const savedTheme =
+        localStorage.getItem('theme');
+
+
+    if (savedTheme === 'dark') {
 
         darkMode = true;
 
-    }
-
-
-    // localStorage preference
-    if (
-        localStorage.getItem('theme') === 'dark'
-    ) {
-
-        darkMode = true;
-
-    } else if (
-        localStorage.getItem('theme') === 'light'
-    ) {
+    } else if (savedTheme === 'light') {
 
         darkMode = false;
+
+    } else {
+
+        darkMode =
+            window.matchMedia(
+                '(prefers-color-scheme: dark)'
+            ).matches;
 
     }
 
 
     if (darkMode) {
 
-        document.body.classList.add('dark');
+        $('body')
+            .addClass('dark');
 
     }
 
 
-    $('#theme-toggle').on('click', function () {
+    $('#theme-toggle').on(
+        'click',
+        function () {
 
-        document.body.classList.toggle('dark');
+            $('body')
+                .toggleClass('dark');
 
-        localStorage.setItem(
-            'theme',
-            document.body.classList.contains('dark')
-                ? 'dark'
-                : 'light'
-        );
 
-    });
+            const isDark =
+                $('body')
+                    .hasClass('dark');
+
+
+            localStorage.setItem(
+                'theme',
+                isDark
+                    ? 'dark'
+                    : 'light'
+            );
+
+        }
+    );
 
 
     // =========================================
-    // 11. ΑΡΧΙΚΗ ΦΟΡΤΩΣΗ
+    // 12. INITIAL LOAD
     // =========================================
 
     loadImages();
 
 });
-```
