@@ -1,124 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Infinite Scroll Gallery</title>
-    
+
     <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    >
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
 
+    <!-- =========================================
+         HERO / LANDING PAGE
+    ========================================== -->
 
-     
-<div class="hero">
-    <h1>Αναζήτηση Εικόνων</h1>
-    <p>
-        Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης 
-        <i id="show-favorites" class="fa-solid fa-heart" title="Δες τα αγαπημένα σου"></i>
-    </p>
-    
-    <div class="search-box">
-        <input type="text" id="search-input" placeholder="Αναζήτηση...">
-        <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button> 
-    </div>
+    <section class="hero">
 
-    <button id="back-home-btn" style="display:none;">
-        <i class="fa-solid fa-arrow-left"></i> Επιστροφή στην Αρχική
-    </button>
-</div>
-
-
-
-
-<div class="gallery-toolbar">
-
-    <div class="search-box">
-        <input
-            type="text"
-            id="search-input"
-            placeholder="Αναζήτηση εικόνων..."
+        <!-- Landing image -->
+        <img
+            class="hero-image"
+            src="images/family-cycling.jpg"
+            alt="Family cycling outdoors"
         >
 
-        <button id="search-btn" aria-label="Αναζήτηση">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </div>
+        <!-- Dark overlay -->
+        <div class="hero-overlay"></div>
 
-    <nav class="categories" id="categories">
+        <!-- Hero content -->
+        <div class="hero-content">
 
-        <button class="category-btn active" data-category="nature">
-            Nature
-        </button>
+            <h1>Αναζήτηση Εικόνων</h1>
 
-        <button class="category-btn" data-category="architecture">
-            Architecture
-        </button>
+            <p>
+                Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
+                <i
+                    id="show-favorites"
+                    class="fa-solid fa-heart"
+                    title="Δες τα αγαπημένα σου">
+                </i>
+            </p>
 
-        <button class="category-btn" data-category="people">
-            People
-        </button>
+            <!-- Main search -->
+            <div class="search-box">
 
-        <button class="category-btn" data-category="fashion">
-            Fashion
-        </button>
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Αναζήτηση εικόνων..."
+                >
 
-        <button class="category-btn" data-category="cars">
-            Cars
-        </button>
+                <button
+                    id="search-btn"
+                    aria-label="Αναζήτηση"
+                >
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
 
-        <button class="category-btn" data-category="travel">
-            Travel
-        </button>
+            </div>
 
-        <button class="category-btn" data-category="animals">
-            Animals
-        </button>
+            <!-- Back home -->
+            <button
+                id="back-home-btn"
+                style="display: none;"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Επιστροφή στην Αρχική
+            </button>
 
-        <button class="category-btn" data-category="art">
-            Art
-        </button>
-
-    </nav>
-
-</div>
-
-<div id="gallery-container"></div>
-    
-
-<div id="gallery-container"></div>
-<div id="loader" style="display:none; text-align:center;"><p>Φόρτωση...</p></div>
-
-<div id="lightbox" class="hidden">
-    <span id="close-lightbox">&times;</span>
-    <img id="lightbox-img" src="">
-</div>
-
-<div id="gallery-container"></div>
-
-<div id="loader" style="display:none;">Φορτώνω...</div>
-    
-    <div id="gallery-container">
         </div>
 
-    <div id="loader" style="display:none; text-align:center;">
+    </section>
+
+
+    <!-- =========================================
+         GALLERY TOOLBAR
+    ========================================== -->
+
+    <section class="gallery-toolbar">
+
+        <nav
+            class="categories"
+            id="categories"
+        >
+
+            <button
+                class="category-btn active"
+                data-category="nature"
+            >
+                Nature
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="architecture"
+            >
+                Architecture
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="people"
+            >
+                People
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="fashion"
+            >
+                Fashion
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="cars"
+            >
+                Cars
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="travel"
+            >
+                Travel
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="animals"
+            >
+                Animals
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="art"
+            >
+                Art
+            </button>
+
+        </nav>
+
+    </section>
+
+
+    <!-- =========================================
+         GALLERY
+    ========================================== -->
+
+    <main
+        id="gallery-container"
+        aria-live="polite"
+    >
+    </main>
+
+
+    <!-- =========================================
+         LOADER
+    ========================================== -->
+
+    <div
+        id="loader"
+        style="display: none;"
+    >
         <p>Φόρτωση...</p>
     </div>
 
-        <button id="theme-toggle" class="theme-toggle" aria-label="Αλλαγή θέματος">
-    <i class="fa-solid fa-moon"></i>
-</button>
 
-    <div id="lightbox" class="hidden">
-        <span id="close-lightbox">&times;</span>
-        <img id="lightbox-img" src="" alt="Full size">
+    <!-- =========================================
+         LIGHTBOX
+    ========================================== -->
+
+    <div
+        id="lightbox"
+        class="hidden"
+    >
+
+        <span id="close-lightbox">
+            &times;
+        </span>
+
+        <img
+            id="lightbox-img"
+            src=""
+            alt="Full size image"
+        >
+
     </div>
+
+
+
+    <button
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Αλλαγή θέματος"
+    >
+        <i class="fa-solid fa-moon"></i>
+    </button>
+
 
     <script src="main.js"></script>
 
 </body>
+
 </html>
