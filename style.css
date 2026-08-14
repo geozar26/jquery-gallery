@@ -1,762 +1,216 @@
-body {
-    background-color: white;
-    color: black;
-}
+<!DOCTYPE html>
+<html lang="en">
 
-body.dark {
-    background-color: black;
-    color: white;
-}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Infinite Scroll Gallery</title>
 
-body.dark .hero {
-    background-color: black;
-    color: white;
-}
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    >
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <!-- =========================================
+         HERO / LANDING PAGE
+    ========================================== -->
+
+    <section class="hero">
+
+        <!-- Landing image -->
+        <img
+            class="hero-image"
+            src="images/family-cycling.jpg"
+            alt="Family cycling outdoors"
+        >
+
+        <!-- Dark overlay -->
+        <div class="hero-overlay"></div>
+
+        <!-- Hero content -->
+        <div class="hero-content">
+
+            <h1>Αναζήτηση Εικόνων</h1>
+
+            <p>
+                Βρες υπέροχες φωτογραφίες υψηλής ανάλυσης
+                <i
+                    id="show-favorites"
+                    class="fa-solid fa-heart"
+                    title="Δες τα αγαπημένα σου">
+                </i>
+            </p>
+
+            <!-- Main search -->
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Αναζήτηση εικόνων..."
+                >
+
+                <button
+                    id="search-btn"
+                    aria-label="Αναζήτηση"
+                >
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+            </div>
+
+            <!-- Back home -->
+            <button
+                id="back-home-btn"
+                style="display: none;"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Επιστροφή στην Αρχική
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         GALLERY TOOLBAR
+    ========================================== -->
+
+    <section class="gallery-toolbar">
+
+        <nav
+            class="categories"
+            id="categories"
+        >
+
+            <button
+                class="category-btn active"
+                data-category="nature"
+            >
+                Nature
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="architecture"
+            >
+                Architecture
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="people"
+            >
+                People
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="fashion"
+            >
+                Fashion
+            </button>
 
+            <button
+                class="category-btn"
+                data-category="cars"
+            >
+                Cars
+            </button>
 
-/* =========================================
-   THEME TOGGLE
-========================================= */
+            <button
+                class="category-btn"
+                data-category="travel"
+            >
+                Travel
+            </button>
 
-.theme-toggle {
-    position: fixed;
+            <button
+                class="category-btn"
+                data-category="animals"
+            >
+                Animals
+            </button>
 
-    top: 35px;
-    right: 35px;
+            <button
+                class="category-btn"
+                data-category="art"
+            >
+                Art
+            </button>
 
-    width: 48px;
-    height: 48px;
+        </nav>
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    </section>
 
-    border: 1px solid #ddd;
-    border-radius: 50%;
 
-    background-color: #ffffff;
-    color: #111111;
+    <!-- =========================================
+         GALLERY
+    ========================================== -->
 
-    font-size: 18px;
+    <main
+        id="gallery-container"
+        aria-live="polite"
+    >
+    </main>
 
-    cursor: pointer;
 
-    z-index: 9999;
+    <!-- =========================================
+         LOADER
+    ========================================== -->
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    <div
+        id="loader"
+        style="display: none;"
+    >
+        <p>Φόρτωση...</p>
+    </div>
 
-    transition:
-        background-color 0.3s ease,
-        color 0.3s ease,
-        border-color 0.3s ease,
-        transform 0.25s ease,
-        box-shadow 0.3s ease;
-}
 
-.theme-toggle:hover {
-    transform: translateY(-2px);
+    <!-- =========================================
+         LIGHTBOX
+    ========================================== -->
 
-    box-shadow:
-        0 7px 20px rgba(0, 0, 0, 0.14);
-}
+    <div
+        id="lightbox"
+        class="hidden"
+    >
 
-.theme-toggle i {
-    transition:
-        transform 0.4s ease;
-}
+        <span id="close-lightbox">
+            &times;
+        </span>
 
-.theme-toggle:hover i {
-    transform: rotate(20deg);
-}
+        <img
+            id="lightbox-img"
+            src=""
+            alt="Full size image"
+        >
 
-body.dark #search-input {
-    background-color: #222;
-    color: white;
-    border-color: #777;
-}
+    </div>
 
-body.dark .category-btn {
-    color: #ccc;
-}
 
-body.dark .category-btn.active {
-    color: white;
-} 
 
-.hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    text-align: center;
+    <button
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Αλλαγή θέματος"
+    >
+        <i class="fa-solid fa-moon"></i>
+    </button>
 
-    padding: 60px 20px;
 
-    background-color: #fff;
-}
+    <script src="main.js"></script>
 
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
+</body>
 
-
-
-.gallery-toolbar {
-    width:100%;
-    max-width: 1400px;
-
-    margin: 25px auto 10px;
-
-
-    display: flex;
-   
-
-    gap: 40px;
-}
-
-
-
-
-.search-box {
-    width: 320px;
-    min-width: 280px;
-
-    display: flex;
-    position: relative;
-
-    margin-top: 0;
-}
-
-#search-input {
-    width: 100%;
-    height: 50px;
-
-    padding: 0 55px 0 20px;
-
-    font-size: 15px;
-
-    background: #eeeeee;
-
-    border: 1px solid #222;
-
-    border-radius: 50px;
-
-    outline: none;
-
-    color: #111;
-
-    box-shadow: none;
-
-    transition:
-        background 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-#search-input::placeholder {
-    color: #777;
-}
-
-#search-input:focus {
-    background: #f5f5f5;
-
-    border-color: #000;
-
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-}
-
-#search-btn {
-    position: absolute;
-
-    right: 15px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    width: 35px;
-    height: 35px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: none;
-
-    border: none;
-
-    color: #111;
-
-    cursor: pointer;
-
-    font-size: 18px;
-
-    transition: transform 0.25s ease;
-}
-
-#search-btn:hover {
-    transform: translateY(-50%) scale(1.12);
-}
-
-
-.categories {
- 
- display:flex;
-
-  gap:20px;
-
-    overflow-x: auto;
-
-
-
-    scrollbar-width: none;
-}
-
-
-
-.categories::-webkit-scrollbar {
-    display: none;
-}
-
-
-/* CATEGORY BUTTON */
-
-.category-btn {
-    position: relative;
-
-    padding: 8px 0 10px;
-
-    background: transparent;
-
-    border: none;
-
-    color: #555;
-
-    font-size: 14px;
-
-    font-weight: 500;
-
-    cursor: pointer;
-
-    transition:
-        color 0.25s ease,
-        transform 0.25s ease;
-}
-
-
-/* LINE UNDER CATEGORY */
-
-.category-btn::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 1px;
-
-    background: #111;
-
-    transform: scaleX(0);
-
-    transform-origin: center;
-
-    transition: transform 0.25s ease;
-}
-
-
-/* CATEGORY HOVER */
-
-.category-btn:hover {
-    color: #111;
-
-    transform: translateY(-3px);
-}
-
-.category-btn:hover::after {
-    transform: scaleX(1);
-}
-
-
-/* ACTIVE CATEGORY */
-
-.category-btn.active {
-    color: #111;
-}
-
-.category-btn.active::after {
-    transform: scaleX(1);
-}
-
-
-
-#back-home-btn {
-    margin-top: 40px;
-
-    padding: 8px 20px;
-
-    background-color: #333;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 20px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition:
-        background-color 0.3s ease,
-        transform 0.3s ease;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 8px;
-}
-
-#back-home-btn:hover {
-    background-color: #555;
-
-    transform: translateY(-2px);
-}
-
-#back-home-btn i {
-    font-size: 12px;
-}
-
-
-#gallery-container {
-    width: 100%;
-    max-width: 1400px;
-
-    margin: 5px auto 0;
-
-    padding: 5px 30px 50px;
-
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    grid-auto-rows: 180px;
-
-    gap: 15px;
-}
-
-
-
-/* =========================================
-   PHOTO ITEM
-========================================= */
-
-.photo-item {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    min-height: 0;
-
-    background: #eee;
-
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    opacity: 0;
-
-    transform: translateY(25px) scale(0.98);
-
-    animation: galleryItemIn 0.6s ease forwards;
-}
-
-
-/* =========================================
-   GALLERY ANIMATION
-========================================= */
-
-@keyframes galleryItemIn {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(25px)
-            scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-/* =========================================
-   DIFFERENT IMAGE SHAPES
-========================================= */
-
-/* Tall */
-
-.photo-item:nth-child(4n + 1) {
-    grid-row: span 2;
-}
-
-
-/* Wide */
-
-.photo-item:nth-child(4n + 2) {
-    grid-column: span 2;
-}
-
-
-/* Small */
-
-.photo-item:nth-child(4n + 3) {
-    grid-row: span 1;
-}
-
-
-/* Medium tall */
-
-.photo-item:nth-child(4n + 4) {
-    grid-row: span 2;
-}
-
-
-/* =========================================
-   IMAGE
-========================================= */
-
-.gallery-img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-        filter 0.4s ease;
-}
-
-.photo-item:hover .gallery-img {
-    transform: scale(1.06);
-
-    filter: brightness(0.94);
-}
-
-
-/* =========================================
-   PHOTO ACTIONS
-   HEART + SAVE + DOWNLOAD
-========================================= */
-
-.photo-actions {
-    position: absolute;
-
-    top: 12px;
-    right: 12px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-
-    z-index: 20;
-}
-
-
-/* ALL ACTION BUTTONS */
-
-.photo-actions .heart-icon,
-.photo-actions .save-icon,
-.photo-actions .download-icon {
-    width: 38px;
-    height: 38px;
-
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0, 0, 0, 0.45);
-
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
-
-    border: 1px solid rgba(255, 255, 255, 0.25);
-
-    border-radius: 50%;
-
-    color: white;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-    transition:
-        transform 0.25s ease,
-        background 0.25s ease;
-}
-
-
-/* ACTION HOVER */
-
-.photo-actions .heart-icon:hover,
-.photo-actions .save-icon:hover,
-.photo-actions .download-icon:hover {
-    background: rgba(0, 0, 0, 0.70);
-
-    transform: translateY(-2px);
-}
-
-
-/* ICONS */
-
-.photo-actions i {
-    color: white;
-
-    font-size: 15px;
-
-    pointer-events: none;
-}
-
-
-/* ACTIVE FAVORITE */
-
-.photo-actions .heart-icon.active i {
-    color: #ff4757;
-}
-
-
-/* =========================================
-   LIGHTBOX
-========================================= */
-
-#lightbox {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.95);
-
-    display: none;
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 1000;
-}
-
-#lightbox-img {
-    max-width: 90%;
-    max-height: 85%;
-
-    border-radius: 4px;
-
-    box-shadow:
-        0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-#close-lightbox {
-    position: absolute;
-
-    top: 20px;
-    right: 30px;
-
-    color: white;
-
-    font-size: 40px;
-
-    cursor: pointer;
-}
-
-
-/* =========================================
-   FAVORITES BUTTON
-========================================= */
-
-.hero #show-favorites {
-    background-color: #ff4757;
-
-    color: white;
-
-    border: none;
-
-    margin-left: 6px;
-
-    padding: 10px 20px;
-
-    border-radius: 25px;
-
-    font-weight: bold;
-
-    margin-top: 15px;
-
-    transition:
-        background-color 0.3s ease,
-        transform 0.3s ease;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 4px 10px rgba(255, 71, 87, 0.3);
-}
-
-.hero #show-favorites:hover {
-    background-color: #ff6b81;
-
-    transform: translateY(-2px);
-}
-
-
-/* =========================================
-   TABLET
-========================================= */
-
-@media (max-width: 1000px) {
-
-    .gallery-toolbar {
-        gap: 25px;
-    }
-
-    .search-box {
-        width: 280px;
-
-        min-width: 250px;
-    }
-
-    .categories {
-        justify-content: flex-start;
-    }
-
-    #gallery-container {
-        grid-template-columns: repeat(2, 1fr);
-
-        grid-auto-rows: 200px;
-    }
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 700px) {
-
-    .hero h1 {
-        font-size: 1.8rem;
-
-        padding: 0 10px;
-
-        margin-bottom: 15px;
-    }
-
-    .gallery-toolbar {
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 18px;
-
-        padding: 0 15px;
-    }
-
-    .search-box {
-        width: 100%;
-
-        min-width: 0;
-    }
-
-    .categories {
-        justify-content: flex-start;
-
-        width: 100%;
-
-        gap: 22px;
-    }
-
-    .category-btn {
-        font-size: 13px;
-    }
-
-    #gallery-container {
-        grid-template-columns: repeat(2, 1fr);
-
-        grid-auto-rows: 160px;
-
-        gap: 10px;
-
-        padding: 15px;
-    }
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 400px) {
-
-    #gallery-container {
-        grid-template-columns: 1fr;
-
-        grid-auto-rows: 250px;
-    }
-
-    /*
-       Εδώ αυξάνουμε την ειδικότητα του selector
-       αντί να χρησιμοποιήσουμε !important.
-    */
-
-    #gallery-container .photo-item:nth-child(4n + 1),
-    #gallery-container .photo-item:nth-child(4n + 2),
-    #gallery-container .photo-item:nth-child(4n + 3),
-    #gallery-container .photo-item:nth-child(4n + 4) {
-        grid-column: span 1;
-
-        grid-row: span 1;
-    }
-
-    .photo-actions {
-        top: 8px;
-
-        right: 8px;
-
-        gap: 5px;
-    }
-
-    .photo-actions .heart-icon,
-    .photo-actions .save-icon,
-    .photo-actions .download-icon {
-        width: 34px;
-
-        height: 34px;
-    }
-
-    .photo-actions i {
-        font-size: 14px;
-    }
-}
-
-
-
-}
+</html>
