@@ -608,15 +608,26 @@ $(document).ready(function () {
             );
 
 
-        video.pause();
+        // Stop video safely
+        if (video) {
 
-        video.currentTime = 0;
+            video.pause();
+
+            try {
+                video.currentTime = 0;
+            } catch (error) {
+                console.log('Could not reset video:', error);
+            }
+
+        }
 
 
+        // Hide video
         $('#hero-video')
             .removeClass('visible');
 
 
+        // Show image
         $('#hero-image')
             .removeClass('hidden');
 
@@ -653,10 +664,12 @@ $(document).ready(function () {
             .removeClass('active');
 
 
+        // Hide image
         $('#hero-image')
             .addClass('hidden');
 
 
+        // Show video
         $('#hero-video')
             .addClass('visible');
 
@@ -667,16 +680,44 @@ $(document).ready(function () {
             );
 
 
-        video.play().catch(
-            function (error) {
+        if (video) {
 
-                console.error(
-                    'Video playback error:',
-                    error
+            // Reset video
+            video.currentTime = 0;
+
+            // Try to play
+            const playPromise =
+                video.play();
+
+
+            if (playPromise !== undefined) {
+
+                playPromise.catch(
+                    function (error) {
+
+                        // AbortError can happen
+                        // when play is interrupted.
+                        // It is not useful to show it
+                        // as a real error.
+
+                        if (
+                            error.name !==
+                            'AbortError'
+                        ) {
+
+                            console.error(
+                                'Video playback error:',
+                                error
+                            );
+
+                        }
+
+                    }
                 );
 
             }
-        );
+
+        }
 
 
         $('#hero-title')
